@@ -1,0 +1,48 @@
+{
+  "name": "rest_api_demo",
+  "version": "1.0.0",
+  "description": "This is demo project demonstrate rest apis",
+  "main": "src/app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/server.ts",
+    "dev": "ts-node-dev --no-notify --clear --debounce 500 src/server.ts",
+    "build": "tsc",
+    "prettier": "prettier --write .",
+    "lint": "eslint --fix ."
+  },
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": "18.20.x"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.19",
+    "axios": "^1.11.0",
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "celebrate": "^15.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.5",
+    "morgan": "^1.10.1",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.38.0"
+  }
+}

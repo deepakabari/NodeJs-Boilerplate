@@ -1,0 +1,30 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  "prettier.requireConfig": true,
+  "prettier.configPath": ".prettierrc.json",
+
+  "eslint.enable": true,
+  "eslint.run": "onSave",
+  "eslint.validate": ["javascript", "typescript", "typescriptreact"],
+
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.wordWrap": "on",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.organizeImports": "always"
+  },
+  "editor.bracketPairColorization.enabled": true,
+
+  "files.eol": "\n",
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true
+  }
+}
