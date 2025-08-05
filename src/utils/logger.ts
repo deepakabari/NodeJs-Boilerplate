@@ -1,15 +1,7 @@
 import winston from 'winston';
 import { envConfig } from '../config';
 import { ENV } from '../interfaces/config';
-
-export type LogLevel = 'error' | 'warn' | 'info' | 'http' | 'debug';
-
-export interface LogMeta {
-  context?: string;
-  errorCode?: number;
-  stack?: string;
-  [key: string]: any;
-}
+import { LogMeta } from '../interfaces/logger.interface';
 
 const levels = {
   error: 0,
@@ -53,14 +45,14 @@ const transports = [
   new winston.transports.File({ filename: 'logs/all.log' })
 ];
 
-export const logWithContext = (context: string) => {
-  const baseLogger = winston.createLogger({
-    level: level(),
-    levels,
-    format,
-    transports
-  });
+const baseLogger = winston.createLogger({
+  level: level(),
+  levels,
+  format,
+  transports
+});
 
+export const logWithContext = (context: string) => {
   const wrap = (level: keyof typeof levels) => {
     return (message: string, meta?: LogMeta | Error) => {
       let finalMeta: LogMeta = { context };

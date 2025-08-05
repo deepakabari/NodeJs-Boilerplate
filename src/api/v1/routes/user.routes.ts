@@ -6,9 +6,142 @@ import { userIdValidator } from '../../../validations/user.validation';
 
 const router = Router();
 
-router.get('/thirdParty', userController.getUsersFromThirdParty);
+/**
+ * @swagger
+ * tags:
+ *   name: v1 - Users
+ *   description: User management and retrieval
+ */
+
+/**
+ * @openapi
+ * /users:
+ *   get:
+ *     summary: Get all users
+ *     tags:
+ *       - v1 - Users
+ *     parameters:
+ *       - in: header
+ *         name: x-api-version
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [v1, v2]
+ *         description: API version (e.g. v1, v2)
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Users fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: number
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Users fetched successfully
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/User'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedMissingToken'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
 router.get('/', isAuth, userController.getUsers);
+
+/**
+ * @openapi
+ * /users/{id}:
+ *   get:
+ *     summary: Get a user by ID
+ *     tags:
+ *       - v1 - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: User ID
+ *         schema:
+ *           type: string
+ *           example: 68918d647a8dcc287fbbeb7b
+ *     responses:
+ *       200:
+ *         description: User fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: number
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: User fetched successfully
+ *                 data:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         $ref: '#/components/responses/ValidationErrorMissingUserId'
+ *       404:
+ *         $ref: '#/components/responses/UserNotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
 router.get('/:id', makeValidator(userIdValidator), userController.getUser);
+
+/**
+ * @openapi
+ * /users/{id}:
+ *   delete:
+ *     summary: Delete a user by ID
+ *     tags:
+ *       - v1 - Users
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: User ID to delete
+ *         schema:
+ *           type: string
+ *           example: 68918d647a8dcc287fbbeb7b
+ *     responses:
+ *       200:
+ *         description: User deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: number
+ *                   example: 200
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: User deleted successfully
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedMissingToken'
+ *       404:
+ *         $ref: '#/components/responses/UserNotFound'
+ *       500:
+ *         $ref: '#/components/responses/InternalServerError'
+ */
 router.delete('/:id', isAuth, userController.removeUser);
 
 export default router;

@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import config, { envConfig } from '../config';
 import { envOptions } from '../interfaces/config';
 import { logWithContext } from '../utils/logger';
-import { NUMBERS } from '../constants/numbers';
 const logger = logWithContext('db');
 
 const cfg = envOptions.includes(envConfig.env) ? config[envConfig.env] : config.development;
@@ -10,7 +9,7 @@ const cfg = envOptions.includes(envConfig.env) ? config[envConfig.env] : config.
 if (!cfg) {
   const errorMessage = `Database configuration for environment "${envConfig.env}" is not defined.`;
   logger.error(errorMessage);
-  process.exit(NUMBERS.ONE);
+  process.exit(1);
 }
 
 const { mongodbUri } = cfg;
@@ -26,7 +25,7 @@ export const connectToDatabase = async () => {
     logger.info('Database connection failed', isError ? error : { raw: message });
     const errorMessage = `Unable to connect to the database: ${error instanceof Error ? error.message : JSON.stringify(error)}`;
     logger.error(errorMessage);
-    process.exit(NUMBERS.ONE);
+    process.exit(1);
   }
 };
 

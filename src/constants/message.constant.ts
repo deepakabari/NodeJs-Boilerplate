@@ -3,6 +3,7 @@ const MESSAGES = {
   USER_CREATED: '🎉 User registered successfully!',
   USER_LOGGED_IN: '🔓 Login successful!',
   USER_FETCHED: '📋 User(s) retrieved successfully.',
+  USER_FETCHED_V2: '📋 V2 - User(s) retrieved successfully.',
   USER_DELETED: '🗑️ User deleted successfully.',
   USER_NOT_FOUND: '❌ User not found.',
   USER_ALREADY_EXISTS: '⚠️ Email is already registered',
@@ -20,10 +21,11 @@ const MESSAGES = {
   BAD_REQUEST: 'Bad request',
   ROUTE_NOT_FOUND:
     'The requested endpoint does not exist. Please verify the route and HTTP method.',
-  VALIDATION_ERROR: 'Validation error',
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
   INVALID_API_VERSION: 'Invalid API version provided',
   VERSION_NOT_FOUND:
-    'We looked everywhere, but this endpoint doesn’t exist in the selected API version. Try a different version or check the documentation. 📚'
+    'We looked everywhere, but this endpoint doesn’t exist in the selected API version. Try a different version or check the documentation. 📚',
+  INTERNAL_SERVER_ERROR: 'SERVER_ERROR'
 };
 
 export default MESSAGES;

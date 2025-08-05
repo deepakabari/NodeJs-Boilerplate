@@ -7,6 +7,8 @@ import MESSAGES from './constants/message.constant';
 import { errorHandler } from './middleware/error.middleware';
 import { morganMiddleware } from './middleware/morgan.middleware';
 import versionedRouteHandler from './middleware/versionRouting.middleware';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './swagger/swagger.doc';
 
 // Initialize express app
 const app: Express = express();
@@ -20,6 +22,8 @@ app.use(cors(corsConfig));
 
 // Request logging
 app.use(morganMiddleware);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Define a health check route
 app.get('/', (_req: Request, res: Response) => {

@@ -9,7 +9,7 @@ const getUsers = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await findAllUsers();
     logger.info('Fetched all users from V2', { count: users.length });
-    success(res, MESSAGES.USER_FETCHED, users);
+    success(res, MESSAGES.USER_FETCHED_V2, users);
     return;
   } catch (error) {
     logger.error('Failed to fetch users V2', error as Error);

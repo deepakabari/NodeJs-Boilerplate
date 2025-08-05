@@ -3,12 +3,7 @@ import MESSAGES from '../../../../constants/message.constant';
 import { NotFoundException } from '../../../../exceptions';
 import { success } from '../../../../utils/ApiResponse';
 import { logWithContext } from '../../../../utils/logger';
-import {
-  deleteUser,
-  findAllUsers,
-  findUserById,
-  getUsersFromThirdPartyService
-} from '../../services/user.service';
+import { deleteUser, findAllUsers, findUserById } from '../../services/user.service';
 const logger = logWithContext('UserController');
 
 const getUsers = async (_req: Request, res: Response, next: NextFunction) => {
@@ -55,32 +50,8 @@ const removeUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const getUsersFromThirdParty = async (_req: Request, res: Response, next: NextFunction) => {
-  try {
-    const result = await getUsersFromThirdPartyService();
-
-    if ('error' in result) {
-      logger.warn('Third party API returned an error', result.error);
-      return res.status(result.status).json({
-        status: result.status,
-        message: result.error.message,
-        error: result.error
-      });
-    }
-
-    logger.info('Fetched users from third party API');
-    success(res, MESSAGES.USER_FETCHED, result);
-    return;
-  } catch (error) {
-    logger.error('Failed to fetch users from third party API', error as Error);
-    next(error);
-    return;
-  }
-};
-
 export default {
   getUsers,
   getUser,
-  removeUser,
-  getUsersFromThirdParty
+  removeUser
 };

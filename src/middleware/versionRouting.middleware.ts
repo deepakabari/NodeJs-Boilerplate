@@ -2,6 +2,9 @@ import { NextFunction, Request, Response, Router } from 'express';
 import fs from 'fs';
 import path from 'path';
 import MESSAGES from '../constants/message.constant';
+import { logWithContext } from '../utils/logger';
+const logger = logWithContext('versionRouting');
+const MAX_ROUTER_FALLBACK_DEPTH = 5;
 
 type RouterMap = Record<string, Router>;
 
@@ -30,7 +33,7 @@ async function loadVersionedRouters(): Promise<{ routers: RouterMap; sortedVersi
           routers[version] = router;
         }
       } catch (error) {
-        console.warn(`Failed to load router for ${version}:`, error);
+        logger.warn(`Failed to load router for ${version}:`, error as Error);
       }
     }
   }
@@ -51,6 +54,13 @@ const handlerPromise = loadVersionedRouters().then(({ routers, sortedVersions })
     const fallbackChain = sortedVersions.filter((v) => v <= requestedVersion).reverse();
 
     const tryNextRouter = (index = 0): void => {
+      if (index >= MAX_ROUTER_FALLBACK_DEPTH) {
+        res.status(500).json({
+          success: false,
+          message: 'Too many fallback attempts – possible misconfiguration'
+        });
+      }
+
       const version = fallbackChain[index];
       const router = routers[version];
 

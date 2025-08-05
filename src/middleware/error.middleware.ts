@@ -6,6 +6,7 @@ import MESSAGES from '../constants/message.constant';
 import { isCelebrateError } from 'celebrate';
 import { ValidationError as JoiValidationError } from 'joi';
 import { CustomRequest, ExtendedError } from '../interfaces/common.interface';
+import { AxiosError } from 'axios';
 const logger = logWithContext('ErrorMiddleware');
 
 export class ApiError extends Error {
@@ -36,8 +37,7 @@ export const errorHandler: ErrorRequestHandler = (
   let statusCode: HttpStatus = HTTP_STATUS.INTERNAL_SERVER_ERROR;
   let message: string = MESSAGES.SERVER_ERROR;
   let errors: Record<string, unknown> | undefined = undefined;
-  let errorCode: string = MESSAGES.SERVER_ERROR;
-
+  let errorCode: string = MESSAGES.INTERNAL_SERVER_ERROR;
   const requestId = req.headers['x-request-id'] || req.id || undefined;
 
   if (isCelebrateError(err)) {
@@ -61,6 +61,10 @@ export const errorHandler: ErrorRequestHandler = (
     errors = {
       validationErrors: err.details.map((detail) => detail.message)
     };
+  } else if (err instanceof AxiosError) {
+    statusCode = err.status as HttpStatus;
+    message = err.message;
+    errorCode = err.code || 'HTTP_ERROR';
   }
 
   // Custom HttpExceptions
