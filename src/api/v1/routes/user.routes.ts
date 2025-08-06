@@ -9,7 +9,7 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   name: v1 - Users
+ *   name: Users
  *   description: User management and retrieval
  */
 
@@ -19,15 +19,7 @@ const router = Router();
  *   get:
  *     summary: Get all users
  *     tags:
- *       - v1 - Users
- *     parameters:
- *       - in: header
- *         name: x-api-version
- *         required: true
- *         schema:
- *           type: string
- *           enum: [v1, v2]
- *         description: API version (e.g. v1, v2)
+ *       - Users
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -64,7 +56,7 @@ router.get('/', isAuth, userController.getUsers);
  *   get:
  *     summary: Get a user by ID
  *     tags:
- *       - v1 - Users
+ *       - Users
  *     parameters:
  *       - in: path
  *         name: id
@@ -107,7 +99,7 @@ router.get('/:id', makeValidator(userIdValidator), userController.getUser);
  *   delete:
  *     summary: Delete a user by ID
  *     tags:
- *       - v1 - Users
+ *       - Users
  *     security:
  *       - bearerAuth: []
  *     parameters:

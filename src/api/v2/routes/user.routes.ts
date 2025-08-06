@@ -7,7 +7,7 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   name: v2 - Users
+ *   name: Users
  *   description: v2 get users
  */
 
@@ -17,7 +17,7 @@ const router = Router();
  *   get:
  *     summary: Get all users - v2
  *     tags:
- *       - v2 - Users
+ *       - Users
  *     security:
  *       - bearerAuth: []
  *     responses:

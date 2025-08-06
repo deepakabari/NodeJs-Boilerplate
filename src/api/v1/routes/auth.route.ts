@@ -8,7 +8,7 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   - name: v1 - Auth
+ *   - name: Auth
  *     description: Authentication related routes
  */
 
@@ -17,7 +17,7 @@ const router = Router();
  * /auth/register:
  *   post:
  *     tags:
- *       - v1 - Auth
+ *       - Auth
  *     summary: Register a new user
  *     description: Registers a user with name, email, and password.
  *     requestBody:
@@ -83,7 +83,7 @@ router.post('/register', makeValidator(registerValidator), authController.regist
  * /auth/login:
  *   post:
  *     summary: Login user and get JWT token
- *     tags: [v1 - Auth]
+ *     tags: [Auth]
  *     requestBody:
  *       required: true
  *       content:

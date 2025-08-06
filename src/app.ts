@@ -8,7 +8,7 @@ import { errorHandler } from './middleware/error.middleware';
 import { morganMiddleware } from './middleware/morgan.middleware';
 import versionedRouteHandler from './middleware/versionRouting.middleware';
 import swaggerUi from 'swagger-ui-express';
-import { swaggerSpec } from './swagger/swagger.doc';
+import { swaggerSpecs } from './swagger/swagger.doc';
 
 // Initialize express app
 const app: Express = express();
@@ -23,7 +23,23 @@ app.use(cors(corsConfig));
 // Request logging
 app.use(morganMiddleware);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/swagger/v1.json', (_req, res) => res.json(swaggerSpecs.v1));
+app.get('/swagger/v2.json', (_req, res) => res.json(swaggerSpecs.v2));
+
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(undefined, {
+    explorer: true,
+    swaggerOptions: {
+      urls: [
+        { url: '/swagger/v1.json', name: 'v1' },
+        { url: '/swagger/v2.json', name: 'v2' }
+      ],
+      docExpansion: 'none'
+    }
+  })
+);
 
 // Define a health check route
 app.get('/', (_req: Request, res: Response) => {
