@@ -3,7 +3,6 @@ import { HttpStatus } from '../constants/http.constant';
 export class HttpException extends Error {
   statusCode: HttpStatus;
   message: string;
-  status: boolean;
   code?: string;
   errors?: Record<string, unknown>;
 
@@ -17,7 +16,6 @@ export class HttpException extends Error {
   ) {
     super(message);
     this.statusCode = statusCode;
-    this.status = false;
     this.code = options?.code;
     this.errors = options?.errors;
 

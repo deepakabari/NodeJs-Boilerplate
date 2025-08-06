@@ -80,7 +80,6 @@ export const errorHandler: ErrorRequestHandler = (
 
   logger.error('Error Handled', {
     message,
-    statusCode,
     stack: (err as Error).stack,
     errors,
     code: errorCode,
@@ -88,7 +87,6 @@ export const errorHandler: ErrorRequestHandler = (
   });
 
   res.status(statusCode).json({
-    status: statusCode,
     success: false,
     error: {
       code: errorCode,

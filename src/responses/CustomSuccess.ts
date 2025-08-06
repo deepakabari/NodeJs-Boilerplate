@@ -14,7 +14,7 @@ export abstract class CustomSuccess<T = undefined> {
 
   toJSON() {
     return {
-      status: this.status,
+      success: this.status,
       message: this.message,
       ...(this.data !== undefined && { data: this.data })
     };
