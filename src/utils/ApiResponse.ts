@@ -5,12 +5,14 @@ export function sendSuccess<T>(res: Response, success: CustomSuccess<T>) {
   return res.status(success.statusCode).json(success.toJSON());
 }
 
-export function success<T>(res: Response, message: string, data?: T) {
-  const success = new Success(message, data);
+export function success<T>(res: Response, messageKey: string, data?: T) {
+  const localizedMessage = res.__(messageKey);
+  const success = new Success(localizedMessage, data);
   return sendSuccess(res, success);
 }
 
-export function created<T>(res: Response, message: string, data?: T) {
-  const created = new Created(message, data);
+export function created<T>(res: Response, messageKey: string, data?: T) {
+  const localizedMessage = res.__(messageKey);
+  const created = new Created(localizedMessage, data);
   return sendSuccess(res, created);
 }

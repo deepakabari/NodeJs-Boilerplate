@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { logWithContext } from '../utils/logger';
 import { CustomJwtPayload } from '../interfaces/auth.interface';
-import MESSAGES from '../constants/message.constant';
 import { HttpException, UnauthorizedException } from '../exceptions';
 import { envConfig } from '../config';
 const logger = logWithContext('AuthMiddleware');
@@ -17,8 +16,8 @@ export default (req: Request, _res: Response, next: NextFunction): void => {
 
     // If the Authorization header is missing, log the event and throw an error
     if (!authHeader) {
-      logger.info(MESSAGES.HEADER_MISSING);
-      throw new UnauthorizedException(MESSAGES.UNAUTHORIZED);
+      logger.info('HEADER_MISSING');
+      throw new UnauthorizedException('UNAUTHORIZED');
     }
 
     // Extract the token from the Authorization header
@@ -29,28 +28,24 @@ export default (req: Request, _res: Response, next: NextFunction): void => {
 
     // If the token could not be decoded, log the event and throw an error
     if (!decodedToken) {
-      logger.warn(MESSAGES.INVALID_TOKEN);
-      throw new UnauthorizedException(MESSAGES.UNAUTHORIZED);
+      logger.warn('INVALID_TOKEN');
+      throw new UnauthorizedException('UNAUTHORIZED');
     }
     // Attach the decoded token to the request object
     req.user = decodedToken;
 
     // Log the successful authorization of the user
-    logger.info(MESSAGES.AUTHORIZED(req.user.id));
+    logger.info('AUTHORIZED');
 
     // Proceed to the next middleware
     next();
   } catch (error) {
-    if (error instanceof Error) {
-      logger.error('An error occurred during authorization', error);
-    } else {
-      logger.error('An error occurred during authorization', { error: String(error) });
-    }
+    logger.error('An error occurred during authorization', error as Error);
 
     if (error instanceof HttpException) {
       throw error;
     }
 
-    throw new UnauthorizedException(MESSAGES.UNAUTHORIZED);
+    throw new UnauthorizedException('UNAUTHORIZED');
   }
 };

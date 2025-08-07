@@ -1,7 +1,7 @@
 import { HttpStatus } from '../constants/http.constant';
 
 export abstract class CustomSuccess<T = undefined> {
-  readonly status: boolean = true;
+  readonly success: boolean = true;
   abstract readonly statusCode: HttpStatus;
   protected readonly message: string;
   readonly data?: T;
@@ -14,7 +14,7 @@ export abstract class CustomSuccess<T = undefined> {
 
   toJSON() {
     return {
-      success: this.status,
+      success: this.success,
       message: this.message,
       ...(this.data !== undefined && { data: this.data })
     };

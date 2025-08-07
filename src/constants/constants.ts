@@ -18,3 +18,10 @@ export const joiOptions: ValidationOptions = {
 
 export const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*])[A-Za-z\d@!#$%^&*]{8,20}$/;
+
+export const LANGUAGE = <const>{
+  ENGLISH: 'en',
+  JAPANESE: 'ja'
+};
+
+export type LANGUAGE_TYPE = (typeof LANGUAGE)[keyof typeof LANGUAGE];

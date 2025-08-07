@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import fs from 'fs';
 import path from 'path';
-import MESSAGES from '../constants/message.constant';
 import { logWithContext } from '../utils/logger';
+import { NotFoundException } from '../exceptions';
 const logger = logWithContext('versionRouting');
 const MAX_ROUTER_FALLBACK_DEPTH = 5;
 
@@ -44,13 +44,6 @@ const handlerPromise = loadVersionedRouters().then(({ routers, sortedVersions })
   return (req: Request, res: Response, next: NextFunction) => {
     const requestedVersion = (req.header('x-api-version') || 'v1')?.toLowerCase();
 
-    if (!routers[requestedVersion]) {
-      return res.status(404).json({
-        success: false,
-        message: MESSAGES.VERSION_NOT_FOUND
-      });
-    }
-
     const fallbackChain = sortedVersions.filter((v) => v <= requestedVersion).reverse();
 
     const tryNextRouter = (index = 0): void => {
@@ -73,10 +66,11 @@ const handlerPromise = loadVersionedRouters().then(({ routers, sortedVersions })
         if (!res.headersSent && index + 1 < fallbackChain.length) {
           tryNextRouter(index + 1);
         } else if (!res.headersSent) {
-          res.status(404).json({
-            success: false,
-            message: MESSAGES.ROUTE_NOT_FOUND
-          });
+          next(
+            new NotFoundException('ROUTE_NOT_FOUND', {
+              code: 'ROUTE_NOT_FOUND'
+            })
+          );
         }
       });
     };

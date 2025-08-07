@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import config, { envConfig } from '../config';
 import { envOptions } from '../interfaces/config';
 import { logWithContext } from '../utils/logger';
+import MESSAGES from '../constants/message.constant';
 const logger = logWithContext('db');
 
 const cfg = envOptions.includes(envConfig.env) ? config[envConfig.env] : config.development;
@@ -17,7 +18,7 @@ const { mongodbUri } = cfg;
 export const connectToDatabase = async () => {
   try {
     await mongoose.connect(mongodbUri);
-    const successMessage = 'Database connection established successfully.';
+    const successMessage = MESSAGES.DB_CONNECTED;
     logger.info(successMessage);
   } catch (error) {
     const isError = error instanceof Error;
@@ -32,7 +33,7 @@ export const connectToDatabase = async () => {
 export const closeDatabaseConnection = async () => {
   try {
     await mongoose.connection.close();
-    const successMessage = 'Database connection closed successfully.';
+    const successMessage = MESSAGES.DB_DISCONNECTED;
     logger.info(successMessage);
   } catch (error) {
     const errorMessage = `Error closing the database connection: ${error instanceof Error ? error.message : JSON.stringify(error)}`;

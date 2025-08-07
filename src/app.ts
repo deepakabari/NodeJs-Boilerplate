@@ -2,13 +2,12 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import { corsConfig } from './constants/constants';
-import { HTTP_STATUS } from './constants/http.constant';
-import MESSAGES from './constants/message.constant';
 import { errorHandler } from './middleware/error.middleware';
 import { morganMiddleware } from './middleware/morgan.middleware';
 import versionedRouteHandler from './middleware/versionRouting.middleware';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpecs } from './swagger/swagger.doc';
+import i18nMiddleware from './middleware/i18n.middleware';
 
 // Initialize express app
 const app: Express = express();
@@ -19,6 +18,9 @@ app.use(bodyParser.json());
 
 // Enable CORS
 app.use(cors(corsConfig));
+
+// Localization for en and ja
+app.use(i18nMiddleware);
 
 // Request logging
 app.use(morganMiddleware);
@@ -47,13 +49,6 @@ app.get('/', (_req: Request, res: Response) => {
 });
 
 app.use(versionedRouteHandler);
-
-app.use((_req: Request, res: Response) => {
-  res.status(HTTP_STATUS.NOT_FOUND).json({
-    success: false,
-    message: MESSAGES.ROUTE_NOT_FOUND
-  });
-});
 
 // Custom application/global error handler
 app.use(errorHandler);

@@ -1,4 +1,3 @@
-import MESSAGES from '../../../constants/message.constant';
 import { User } from '../../../db/models/user.model';
 import { BadRequestException, UnauthorizedException } from '../../../exceptions';
 import { LoginBody, RegisterBody } from '../../../interfaces/auth.interface';
@@ -10,7 +9,7 @@ export const registerUser = async (body: RegisterBody) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     logger.warn('Registration failed: user already exists', { email });
-    throw new BadRequestException(MESSAGES.USER_ALREADY_EXISTS, {
+    throw new BadRequestException('USER_ALREADY_EXISTS', {
       code: 'USER_ALREADY_EXISTS'
     });
   }
@@ -26,7 +25,7 @@ export const loginUser = async (body: LoginBody) => {
   const user = await User.findOne({ email });
   if (!user) {
     logger.warn('Login failed: user not found', { email });
-    throw new UnauthorizedException(MESSAGES.INVALID_CREDENTIALS, {
+    throw new UnauthorizedException('INVALID_CREDENTIALS', {
       code: 'AUTH_INVALID_CREDENTIALS'
     });
   }
@@ -34,7 +33,7 @@ export const loginUser = async (body: LoginBody) => {
   const isMatch = await user.comparePassword(password);
   if (!isMatch) {
     logger.warn('Login failed: password does not match', { email });
-    throw new UnauthorizedException(MESSAGES.PASSWORD_DOES_NOT_MATCH, {
+    throw new UnauthorizedException('PASSWORD_DOES_NOT_MATCH', {
       code: 'AUTH_PASSWORD_INCORRECT'
     });
   }

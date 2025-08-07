@@ -1,31 +1,5 @@
 const MESSAGES = {
-  SUCCESS: 'Success',
-  USER_CREATED: '🎉 User registered successfully!',
-  USER_LOGGED_IN: '🔓 Login successful!',
-  USER_FETCHED: '📋 User(s) retrieved successfully.',
-  USER_FETCHED_V2: '📋 V2 - User(s) retrieved successfully.',
-  USER_DELETED: '🗑️ User deleted successfully.',
-  USER_NOT_FOUND: '❌ User not found.',
-  USER_ALREADY_EXISTS: '⚠️ Email is already registered',
-  VALIDATION_FAILED: '⚠️ Validation failed. Please check your input.',
-  AUTHORIZED: (userId: number) => `User ${userId} is authorized`,
-  INVALID_CREDENTIALS: '🚫 Invalid email or password. Please try again.',
-  UNAUTHORIZED: '🔐 Unauthorized. Please log in.',
-  FORBIDDEN: '⛔ Access denied. You do not have permission.',
-  TOKEN_REQUIRED: '🔒 Access token is required.',
-  INVALID_TOKEN: '🚫 Invalid or expired token. Please log in again.',
-  PASSWORD_DOES_NOT_MATCH: '🔑 Password does not match. Please double-check and try again.',
-  HEADER_MISSING: 'Authorization header is missing',
-  DB_CONNECTED: 'MongoDB connected',
-  SERVER_ERROR: '💥 Something went wrong on our end. Please try again later.',
-  BAD_REQUEST: 'Bad request',
-  ROUTE_NOT_FOUND:
-    'The requested endpoint does not exist. Please verify the route and HTTP method.',
-  VALIDATION_ERROR: 'VALIDATION_ERROR',
-  INVALID_API_VERSION: 'Invalid API version provided',
-  VERSION_NOT_FOUND:
-    'We looked everywhere, but this endpoint doesn’t exist in the selected API version. Try a different version or check the documentation. 📚',
-  INTERNAL_SERVER_ERROR: 'SERVER_ERROR'
+  DB_CONNECTED: 'Database connection established successfully.',
+  DB_DISCONNECTED: 'Database connection closed successfully.'
 };
-
 export default MESSAGES;

@@ -24,4 +24,5 @@ export const HTTP_STATUS = <const>{
   INVALID_TOKEN: 419,
   SESSION_EXPIRED: 423
 };
+
 export type HttpStatus = (typeof HTTP_STATUS)[keyof typeof HTTP_STATUS];

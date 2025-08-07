@@ -2,7 +2,6 @@ import { ErrorRequestHandler, NextFunction, Response } from 'express';
 import { HttpException } from '../exceptions/HttpException';
 import { logWithContext } from '../utils/logger';
 import { HTTP_STATUS, HttpStatus } from '../constants/http.constant';
-import MESSAGES from '../constants/message.constant';
 import { isCelebrateError } from 'celebrate';
 import { ValidationError as JoiValidationError } from 'joi';
 import { CustomRequest, ExtendedError } from '../interfaces/common.interface';
@@ -35,14 +34,14 @@ export const errorHandler: ErrorRequestHandler = (
   _next: NextFunction
 ) => {
   let statusCode: HttpStatus = HTTP_STATUS.INTERNAL_SERVER_ERROR;
-  let message: string = MESSAGES.SERVER_ERROR;
+  let message: string = 'SERVER_ERROR';
   let errors: Record<string, unknown> | undefined = undefined;
-  let errorCode: string = MESSAGES.INTERNAL_SERVER_ERROR;
+  let errorCode: string = 'INTERNAL_SERVER_ERROR';
   const requestId = req.headers['x-request-id'] || req.id || undefined;
 
   if (isCelebrateError(err)) {
     statusCode = HTTP_STATUS.BAD_REQUEST;
-    errorCode = MESSAGES.VALIDATION_ERROR;
+    errorCode = 'VALIDATION_ERROR';
 
     for (const [, joiError] of err.details.entries()) {
       const valitionMessage = joiError.details[0]?.message;
@@ -56,8 +55,8 @@ export const errorHandler: ErrorRequestHandler = (
   // Custom JoiValidationError
   else if (err instanceof JoiValidationError) {
     statusCode = HTTP_STATUS.BAD_REQUEST;
-    message = MESSAGES.VALIDATION_FAILED;
-    errorCode = MESSAGES.VALIDATION_ERROR;
+    message = 'VALIDATION_FAILED';
+    errorCode = 'VALIDATION_ERROR';
     errors = {
       validationErrors: err.details.map((detail) => detail.message)
     };
@@ -78,8 +77,10 @@ export const errorHandler: ErrorRequestHandler = (
     message = err.message;
   }
 
+  const localizedMessage = res.__(message);
+
   logger.error('Error Handled', {
-    message,
+    message: localizedMessage,
     stack: (err as Error).stack,
     errors,
     code: errorCode,
@@ -90,7 +91,7 @@ export const errorHandler: ErrorRequestHandler = (
     success: false,
     error: {
       code: errorCode,
-      message,
+      message: localizedMessage,
       details: errors
     }
   });
