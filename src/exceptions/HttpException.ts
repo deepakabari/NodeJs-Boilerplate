@@ -1,8 +1,9 @@
 import { HttpStatus } from '../constants/http.constant';
+import { Translation } from '../interfaces/config';
 
 export class HttpException extends Error {
   statusCode: HttpStatus;
-  message: string;
+  message: Translation;
   code?: string;
   errors?: Record<string, unknown>;
 
